@@ -192,5 +192,6 @@ def main():
             exit()
         print("\n")
 
-dev_check()
+# For dev checking as it allows me to skip over parts and make stuff quicker
+# dev_check()
 main()
