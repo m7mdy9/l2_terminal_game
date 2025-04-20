@@ -183,7 +183,6 @@ def main():
         if input_loop('y', 'n') == 'n':
             exit()
         print("\n")
-        
 
 dev_check()
 main()
