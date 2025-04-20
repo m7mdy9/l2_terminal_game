@@ -3,6 +3,14 @@ import sys
 import time
 import random
 
+"""
+Hey so to make sure I am on no wrong ground, here are the bis of code which I have searched for on how to do it
+and got it from the internet and I believe I understand it okayyy so yea!
+Where I learnt about *args from: https://stackoverflow.com/questions/9539921/how-do-i-define-a-function-with-optional-arguments
+Where I learn the .lower() function: https://www.programiz.com/python-programming/methods/string/lower
+Where I learn about setting default arguments: https://thepythoncodingbook.com/2022/11/23/optional-arguments-with-default-values-in-python-functions/
+Where I learn about the cool letter by letter print-style: https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
+"""
 # This part of block is used to save time while testing.
 dev_mode = False
 def dev_check():
