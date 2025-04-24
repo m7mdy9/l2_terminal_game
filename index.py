@@ -231,5 +231,5 @@ def main():
         print("\n")
 
 # For dev checking as it allows me to skip over parts and make stuff quicker
-dev_check()
+# dev_check()
 main()
