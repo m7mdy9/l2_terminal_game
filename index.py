@@ -145,7 +145,7 @@ def look_around():
         proceed()
     elif result == "3":
         loop_sp(1.5, "Fine, I will just choose for you then.")
-        # IMPORTANT: on my testing it seemed to only choose 1, I find that weird.
+        # Apparently just using the method without making a custom function fixes it.
         choice = random.choice([1,2])
         if choice == 1:
             sleep_print("Proceed, it is!", 1)
@@ -231,5 +231,5 @@ def main():
         print("\n")
 
 # For dev checking as it allows me to skip over parts and make stuff quicker
-# dev_check()
+dev_check()
 main()
