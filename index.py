@@ -7,10 +7,12 @@ import random
 Hey so to make sure I am on no wrong ground, here are the bis of code which I have searched for on how to do it
 and got it from the internet and I believe I understand it okayyy so yea!
 Where I learnt about *args from: https://stackoverflow.com/questions/9539921/how-do-i-define-a-function-with-optional-arguments
-Where I learn the .lower() function: https://www.programiz.com/python-programming/methods/string/lower
-Where I learn about setting default arguments: https://thepythoncodingbook.com/2022/11/23/optional-arguments-with-default-values-in-python-functions/
-Where I learn about the cool letter by letter print-style: https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
+Where I learnt the .lower() function: https://www.programiz.com/python-programming/methods/string/lower
+Where I learnt about setting default arguments: https://thepythoncodingbook.com/2022/11/23/optional-arguments-with-default-values-in-python-functions/
+Where I learnt about the cool letter by letter print-style: https://stackoverflow.com/questions/9246076/how-to-print-one-character-at-a-time-on-one-line
+Where I learnt about printing sets or lists without the brackets nor the quotations: https://www.geeksforgeeks.org/how-to-print-a-list-without-brackets-in-python/ 
 """
+
 # This part of block is used to save time while testing.
 dev_mode = False
 def dev_check():
@@ -54,12 +56,13 @@ def anim_print(text, same_line=False):
 # input loop that well, makes a loop for input and if wrong input is put it loops till user puts correct one!
 def input_loop(*args):
     looper = True
+    list_of_choices = ", ".join(args)
     sleep_print(f"Make your choice (e.g. {args[0]}):", 0.5)
     while looper:
         # making vaariable global to be used else-where
         result = input("\n>")
         if result not in args:
-            anim_print(f"Invalid choice. Choose one of the following {args}")
+            anim_print(f"Invalid choice. Choose one of the following ( {list_of_choices} )")
         else:
             looper = False
     return result
@@ -84,10 +87,10 @@ def intro():
             "No wonder your head hurts.",
             )
     sleep_print("You stand to evaluate what to do next...", 1)
-    sleep_print("\nYou decide that what you will be doing next is...", 2.5)
+    sleep_print("\nYou decide that what you will be doing next is...", 1.75)
     loop_sp(1, 
             "1. Walk in a straight line!", 
-            "2. Look around and see if there are anywhere worth going."
+            "2. Look around and see if there is anywhere worth going."
             )
     global res1
     res1 = input_loop('1', '2')
@@ -100,15 +103,16 @@ def straight_line():
             "Congratulations! As a result of your actions you found a...",
             animal + "!",
             "Fortunately, it didn't hear you yet...",
+            add_points(1),
             "Now, you have a choice to make!",
             "1. Wait behind a bush waiting for it to finish whatever it's doing.",
             "2. Sneak around it."
             )
     result = input_loop("1", "2")
     if result == "1":
-        return wait_choice(animal.lower())
+        wait_choice(animal.lower())
     elif result == "2":
-        return sneak_choice(animal.lower())
+        sneak_choice(animal.lower())
     
 # the function for the wait choice
 def wait_choice(animal):
@@ -121,8 +125,8 @@ def wait_choice(animal):
             "You decide it's best to continue forward for a few hours and lucky you found a city",
             "After that you went there and managed to get back to your home town!"
             )
-    sleep_print("Patience ending!", 2)
-    return 10
+    add_points(4)
+    check_end("Patience ending!!!")
 
 
 # the function for the sneak choice
@@ -130,40 +134,42 @@ def sneak_choice(animal):
     loop_sp(2, f"You try to sneak around the {animal}",
             f"However, you failed to sneak past it as you stepped on a small but loud tree branch on the ground, and the {animal} hears you.",
             f"Congratulations! You have became the dinner for that {animal}",
-            "Dinner ending!"
             )
-    return 0
+    set_points(0, True)
+    check_end("Dinner ending!!!")
 
 # actions to carry out for look_around choice
 def look_around():
     distance = random.randint(1, 99) / 10 
+    add_points(3)
     loop_sp(1.5, f"You look around and you find a temple that is {distance} km away!",
             "Would you like to go to that temple?", "1. Yes.", "2. Sure.", "3. I am uncertain...", "4. Seems like a bad idea.", "5. No.")
     result = input_loop("1", "2", "3", "4" ,"5")
     if result == "1" or result == "2":
-        return proceed()
+        proceed()
     elif result == "3":
         loop_sp(1.5, "Fine, I will just choose for you then.")
         # For some reason this only chooses 1, hmm weird...
+        # ! the function below which should return either one or two (simplification of random.choice() ) only returns 1 as far as my testing goes
         choice = rand_choice([1,2])
         if choice == 1:
             sleep_print("Proceed, it is!", 1)
-            return proceed()
+            proceed()
         else: 
             sleep_print("Going somewhere else, it is!", 1)
-            return do_not_proceed()
+            do_not_proceed()
     elif result == "4" or result == "5":
-        return do_not_proceed()
+        do_not_proceed()
 
 # choosing yes in look around choice.
 def proceed():
     loop_sp(1.5, "You decide it's a good idea to enter the temple...",
-            "You press on a pressure plate while entering, from the looks of it it seems unavoidable",
+            "You press on a pressure plate while entering, from the looks of it, it seems unavoidable",
             "However, the moment you look infront of you, you get greeted by an arrow.",
             "Needless to say, you didn't survive that...",
-            "Temple ending!!"
             )
-    return 0
+    set_points(0, True)
+    check_end("Temple ending!!!")
 
 # no proceeding :( (as in the user didn't choose to proceed)
 def do_not_proceed():
@@ -173,20 +179,57 @@ def do_not_proceed():
             "You walk for a bit more and you found a city!",
             "You rest there and get some food and then get in some calls.",
             "These calls were able to bring you back home!",
-            "Fast ending!!"
             )
-    return 10
+    add_points(7)
+    check_end("Fast ending!!!")    
+
+def check_end(ending):
+    if total_score <= 0:
+        loop_sp(1.5,
+                "\nAlas, your journey was short-lived.",
+                "You could not survive the dangerous challenges in the jungle.",
+                f"In the end, you scored {total_score} point(s).",
+                ending
+                )
+    elif total_score <= 5:
+        loop_sp(1.5,
+                "\nFinally, you were able to get out of the situation you were in.",
+                "The decisions you made were....questionable.",
+                "However, they were good enough to get you out of here, which is good, I guess!",
+                f"After such interesting choices, you scored a total of {total_score} points",
+                ending
+                )
+    elif total_score >= 6:
+        loop_sp(1.5,
+                "\nWith your smart choices, you were able to survive!",
+                "You made actually smart and calculated choices, hence your quick departure of this situation.",
+                f"With your cleverness, you scored a total of {total_score} points",
+                ending
+                )
+
+def add_points(num):
+    global total_score
+    total_score += num
+    sleep_print(f"Your current score is {total_score} point(s)", 1)
+    return ""
+
+def set_points(num, condition = False):
+    global total_score
+    total_score = num
+    if condition:
+        sleep_print(f"Your current score is {total_score} point(s)", 1)
 
 # main function responsible for the game running
 def main():
+    global total_score
+    total_score = 0
     while True:
-        score = 0
+        set_points(0)
         intro()
         if res1 == "1":
-            score = straight_line()
+            straight_line()
         else:
-            score = look_around()
-        sleep_print(f"You finished with a score of {score}", 1)
+            look_around()
         sleep_print("\nWould you like to play again? y/n:", 1)
         if input_loop('y', 'n') == 'n':
             exit()
