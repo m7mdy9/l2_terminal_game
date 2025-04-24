@@ -27,26 +27,23 @@ def sleep(n):
     else:
         time.sleep(n)
 
-# Random choice!! saving time on random.choice()
-def rand_choice(list):
-    return random.choice(list)
 
 # An animated print!
 def anim_print(text, same_line=False):
     # Making the variable global so it can be used outside the function
     global used_text
 
-    # This block of code is responsible for whether to have a line at the end or not since this follows rules different from print().
+    # Reponsible for checking whether to continue from a new line or not
     if same_line:
         used_text = text
     else:
         used_text = "\n" + text
-    # A for loop to write each character by hand using the standrad output
+    # Loop required for writing characters one by one for a good-looking print
     for char in used_text:
         # Writes character by hand and then flushes the stream in order to have them actually animate.
         sys.stdout.write(char)
         sys.stdout.flush()
-        # Part responsible for waiting otherwise it would be just a bad slow print that doesn't look cool while coming in letter by letter
+        # Reponsible for waiting otherwise it would print instantly and look bad.
         # Also checking for dev_mode to save my time!
         if dev_mode:
             time.sleep(0.009)
@@ -81,7 +78,7 @@ def loop_sp(n, *args):
 # introduction
 def intro():
     sleep_print("Your head hurts.", 1, True)
-    loop_sp(1, 
+    loop_sp(1,
             "You wake up in what seems to be a jungle...", 
             "Looking above you, you can see a parachute stuck in the branches above.",
             "No wonder your head hurts.",
@@ -96,9 +93,8 @@ def intro():
     res1 = input_loop('1', '2')
 
 # actions to carry out for straight_line choice
-
 def straight_line():
-    animal = rand_choice(["Tiger", "Lion", "Bear"])
+    animal = random.choice(["Tiger", "Lion", "Bear"])
     loop_sp(1, "You decide to move in a straight line...",
             "Congratulations! As a result of your actions you found a...",
             animal + "!",
@@ -149,9 +145,8 @@ def look_around():
         proceed()
     elif result == "3":
         loop_sp(1.5, "Fine, I will just choose for you then.")
-        # For some reason this only chooses 1, hmm weird...
-        # ! the function below which should return either one or two (simplification of random.choice() ) only returns 1 as far as my testing goes
-        choice = rand_choice([1,2])
+        # IMPORTANT: on my testing it seemed to only choose 1, I find that weird.
+        choice = random.choice([1,2])
         if choice == 1:
             sleep_print("Proceed, it is!", 1)
             proceed()
